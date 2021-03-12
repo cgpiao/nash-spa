@@ -26,7 +26,7 @@
       <div class="content__bottom flex flex-col">
          <div class="item-list flex justify-between flex-grow px-14">
             <div class="item">
-               <IconUploadFileWhite/>
+               <img src="../../assets/images/ic_home1.png"/>
                <div class="item__text1">
                   Easy API
                </div>
@@ -34,8 +34,8 @@
                   Our developer-friendly, documented API endpoints allow you to pin anything you want to IPFS.
                </div>
             </div>
-            <div class="item ml-4">
-               <IconUploadFileWhite/>
+            <div class="item ml-8">
+               <img src="../../assets/images/ic_home2.png"/>
                <div class="item__text1">
                   Deep Visibility
                </div>
@@ -43,8 +43,8 @@
                   Enjoy full visibility into what you are pinning with our pin explorer and metadata indexing.
                </div>
             </div>
-            <div class="item ml-4">
-               <IconUploadFileWhite/>
+            <div class="item ml-8">
+               <img src="../../assets/images/ic_home3.png"/>
                <div class="item__text1">
                   Data Resiliency
                </div>
@@ -52,8 +52,8 @@
                   We make sure your content stays pinned on IPFS so you don't have to.
                </div>
             </div>
-            <div class="item ml-4">
-               <IconUploadFileWhite/>
+            <div class="item ml-8">
+               <img src="../../assets/images/ic_home3.png"/>
                <div class="item__text1">
                   Blockchain
                </div>
@@ -68,12 +68,11 @@
 </template>
 
 <script>
-import IconUploadFileWhite from '../../assets/images/ic_upload_file_white.svg';
 import TheSiteFooter from "@/components/shared/TheSiteFooter";
 
 export default {
    name: "Home",
-   components: {TheSiteFooter, IconUploadFileWhite}
+   components: {TheSiteFooter}
 }
 </script>
 
@@ -118,9 +117,9 @@ export default {
       margin-top: 1rem;
       font-size: 1rem;
    }
-   svg {
-      width: 60px;
-      height: 60px;
+   img {
+      width: 48px;
+      height: 48px;
    }
 }
 </style>
