@@ -99,7 +99,6 @@ export default {
          }
          agent.accounts.create(params).then(resp => {
             let data = {username: this.form.models.username, token: resp.data}
-            console.log('data', data)
             this.$store.commit(M_SESSION_SET, data)
             this.$router.replace({name: 'explorer'})
          }).catch(error => {

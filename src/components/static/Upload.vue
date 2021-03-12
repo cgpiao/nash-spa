@@ -144,7 +144,7 @@ export default {
                      clearInterval(interval)
                   }
                })
-            }, 500)
+            }, 1500)
          }).catch(() => {
             Message.error(
                   'Hash not exist',
@@ -200,7 +200,7 @@ export default {
                      clearInterval(interval)
                   }
                })
-            }, 500)
+            }, 1500)
          })
       },
       getButtonClass(tab) {
