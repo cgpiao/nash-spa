@@ -61,7 +61,7 @@
    </div>
 </template>
 
-<script>
+<script type="application/javascript">
 import Message from "ant-design-vue/lib/message";
 import IconUploadFileBlack from '../../assets/images/ic_upload_file_black.svg';
 import IconUploadFileWhite from '../../assets/images/ic_upload_file_white.svg';
