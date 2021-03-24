@@ -2,15 +2,15 @@
    <div class="w-full flex flex-col items-center">
       <div class="w-full">
       </div>
-      <div class="flex flex-col" style="width: 450px;">
-         <div class="text-4xl mt-36">{{ $t("auth.Login") }}</div>
+      <div class="flex flex-col w-full lg:w-96 px-4 lg:px-0">
+         <div class="text-2xl font-semibold lg:font-normal lg:text-4xl mt-40 lg:mt-36">{{ $t("auth.Login") }}</div>
          <input v-model="form.models.username" :placeholder="$t('auth.placeholder.Username')" class="mt-4"/>
          <input type="password" v-model="form.models.password" :placeholder="$t('auth.placeholder.Password')"
                 class="mt-4"/>
          <div class="mt-4 text-red-600 h-4 w-full flex justify-center">
             {{ form.message }}
          </div>
-         <div class="mt-24">
+         <div class="mt-12 lg:mt-24">
             <a-button type="primary" block shape="round" html-type="submit" @click="login">{{
                   $t("action.Submit")
                }}

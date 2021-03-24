@@ -13,6 +13,8 @@ import DatePicker from 'ant-design-vue/lib/date-picker';
 import Table from "ant-design-vue/lib/table";
 import Message from "ant-design-vue/lib/message";
 import Modal from "ant-design-vue/lib/modal/Modal";
+import Menu from "ant-design-vue/lib/menu";
+import Popover from "ant-design-vue/lib/popover";
 
 
 const i18n = createI18n({
@@ -31,6 +33,8 @@ createApp(Site)
    .use(DatePicker)
    .use(Select)
    .use(Message)
+   .use(Popover)
+   .use(Menu)
    .use(store)
    .use(router)
    .use(i18n)

@@ -5,21 +5,21 @@
             <img src="../../assets/images/ic_logo.png" width="100" height="60"/>
          </div>
          <div class="buttons w-full flex justify-between" style="margin-top: 55px">
-            <div :class="getButtonClass(1)" @click="()=>handleTabChange(1)">
+            <div :class="getButtonClass(1) + ' flex lg:px-4 mx-2 lg:mx-0'" @click="()=>handleTabChange(1)">
                <div class="flex">
                   <IconUploadFileWhite v-if="currentTab === 1" class="file"/>
                   <IconUploadFileBlack v-else class="file"/>
                   <div class="text">Upload File</div>
                </div>
             </div>
-            <div :class="getButtonClass(2)" @click="()=>handleTabChange(2)">
+            <div :class="getButtonClass(2) + ' hidden lg:flex lg:px-4'" @click="()=>handleTabChange(2)">
                <div class="flex">
                   <IconUploadFolderWhite v-if="currentTab === 2" class="folder"/>
                   <IconUploadFolderBlack v-else class="folder"/>
                   <div class="text">Upload Directory</div>
                </div>
             </div>
-            <div :class="getButtonClass(3)" @click="()=>handleTabChange(3)">
+            <div :class="getButtonClass(3) + ' flex lg:px-4 mx-2 lg:mx-0'" @click="()=>handleTabChange(3)">
                <div class="flex">
                   <IconPinWhite v-if="currentTab === 3" class="pin"/>
                   <IconPinBlack v-else class="pin"/>
@@ -28,10 +28,13 @@
             </div>
          </div>
          <div class="upload-form" >
-            <div class="relative pl-3 file-select h-10 bg-white flex flex-col justify-center border border-gray-300 border-solid rounded-lg text-gray-900" v-if="currentTab === 1">
+            <div class="relative pl-3 file-select h-10 bg-white hidden lg:flex flex-col justify-center border border-gray-300 border-solid rounded-lg text-gray-900 " v-if="currentTab === 1">
                <input type="file" style="display: none" id="selectFile" @change="handleFileChange"/>
                <label class="cursor-pointer" for="selectFile">{{files.length > 0 ? files[0].name : 'Select File…'}}</label>
                <IconAdd class="absolute right-2 add" />
+            </div>
+            <div class="relative pl-3 file-select h-10 flex lg:hidden flex-col items-center justify-center rounded-lg text-gray-900" v-if="currentTab === 1">
+               <div class="text-xl">do not allow upload on mobile devices</div>
             </div>
             <div class="relative pl-3 file-select h-10 bg-white flex flex-col justify-center border border-gray-300 border-solid rounded-lg text-gray-900" v-if="currentTab === 2">
                <input type="file" style="display: none" id="selectFolder" webkitdirectory mozdirectory @change="handleFolderChange"/>
@@ -42,14 +45,14 @@
                <input type="text" placeholder="hash" v-model="hash"/>
                <IconAdd class="absolute right-2 add" />
             </div>
-            <div class="mt-7 p-2 file-select h-10 bg-white flex flex-col justify-center border border-gray-300 border-solid rounded-lg text-gray-900">
-               <input type="text" placeholder="Custom Name For Pin" v-model="customFileName" v-if="currentTab === 1"/>
+            <div class="mt-7 p-2 file-select h-10 bg-white flex-col justify-center border border-gray-300 border-solid rounded-lg text-gray-900 hidden lg:flex">
+               <input type="text" placeholder="Custom Name For Pin" class="" v-model="customFileName" v-if="currentTab === 1"/>
                <input type="text" placeholder="Custom Name For Pin" v-model="customFolderName" v-if="currentTab === 2"/>
                <input type="text" placeholder="Custom Name For Pin" v-model="customHashName" v-if="currentTab === 3"/>
             </div>
             <div class="mt-14 flex justify-center">
                <a-button type="primary" v-if="currentTab === 3" class="px-12" shape="round" @click="handlePin" :disabled="pinDisabled">Pin</a-button>
-               <a-button type="primary" v-else class="px-12" shape="round" @click="handleSubmit" :disabled="submitDisabled">Upload</a-button>
+               <a-button type="primary" v-else class="px-12 hidden lg:inline-block" shape="round" @click="handleSubmit" :disabled="submitDisabled">Upload</a-button>
             </div>
          </div>
          <div class="mt-12 flex flex-col">
@@ -204,18 +207,11 @@ export default {
          })
       },
       getButtonClass(tab) {
-         let cls = {
-            'flex-1': true,
-            flex: true,
-            'items-center': true,
-            'justify-center': true,
-            'btn': true,
-            'mx-4': true,
-         }
+         let cls = ['flex-1', 'items-center', 'justify-center', 'btn']
          if (this.currentTab === tab) {
-            cls.active = true
+            cls.push('active')
          }
-         return cls
+         return cls.join(' ')
       }
    }
 }

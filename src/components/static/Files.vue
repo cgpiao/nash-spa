@@ -1,9 +1,9 @@
 <template>
-   <div class="w-full px-12">
-      <div class="title flex justify-center">
+   <div class="w-full px-4 lg:px-12 explorer">
+      <div class="title flex justify-center text-3xl lg:text-5xl font-bold">
          PIN EXPLORER
       </div>
-      <div class="filter-panel flex justify-between">
+      <div class="filter-panel justify-between hidden lg:flex">
          <div class="filter flex flex-col">
             <div class="label">Name Contains</div>
             <a-input v-model:value="condition.name" class="mt-2" style="width: 260px"/>
@@ -31,7 +31,8 @@
          </div>
       </div>
       <div class="flex w-full justify-center mt-14">
-         <a-button type="primary" shape="round" @click="handleConditionChange">Update Filter</a-button>
+         <a-button type="primary" shape="round" @click="handleConditionChange" class="hidden lg:inline-block">Update Filter</a-button>
+         <a-button type="primary" shape="round" @click="()=>conditionModalVisible=true" class="inline-block lg:hidden">Update Filter</a-button>
       </div>
       <div class="flex mt-14">
          <div class="text-lg">
@@ -41,8 +42,40 @@
             Total Size: {{formatSize(totalSize)}}
          </div>
       </div>
+      <teleport to="body">
+         <a-modal v-model:visible="conditionModalVisible" title="Filters" @ok="handleConditionChange">
+            <div class="justify-between flex flex-col w-full">
+               <div class="filter flex items-center">
+                  <div class="label text-sm w-20">Name</div>
+                  <a-input v-model:value="condition.name" class="ml-2 flex-1"/>
+               </div>
+               <div class="filter flex items-center mt-2">
+                  <div class="label text-sm w-20">Pin Status</div>
+                  <a-select v-model:value="condition.status" class="ml-2 flex-1">
+                     <a-select-option value="">All</a-select-option>
+                     <a-select-option v-for="item in statuses" :value="item" :key="item">{{item}}</a-select-option>
+                  </a-select>
+               </div>
+               <div class="filter flex items-center mt-2">
+                  <div class="label text-sm w-20">Pin Date</div>
+                  <div class="flex ml-2 flex-1">
+                     <a-date-picker v-model:value="condition.startDate" placeholder="Start Date" value-format="YYYY-MM-DD" class="flex-1"/>
+                     <a-date-picker v-model:value="condition.endDate" placeholder="End Date" value-format="YYYY-MM-DD" class="flex-1"/>
+                  </div>
+               </div>
+               <div class="filter flex items-center mt-2">
+                  <div class="label text-sm w-20">Unpin Date</div>
+                  <div class="flex ml-2 flex-1">
+                     <a-date-picker v-model:value="condition.unpinStartDate" placeholder="Start Date" value-format="YYYY-MM-DD" class="flex-1"/>
+                     <a-date-picker v-model:value="condition.unpinEndDate" placeholder="End Date" value-format="YYYY-MM-DD" class="flex-1"/>
+                  </div>
+               </div>
+            </div>
+         </a-modal>
+      </teleport>
       <a-table :columns="columns" :data-source="attachments"
                class="border mt-4 mb-12"
+               :scroll="{x: true}"
                :rowKey="(record)=>record.uuid"
                :pagination="false"
                :rowClassName="(_, index)=>index%2===1 ? 'bg-gray-100': ''">
@@ -133,12 +166,13 @@ export default {
    },
    data() {
       return {
+         conditionModalVisible: false,
          columns: [
-            {title: 'Name', dataIndex: 'original_name',},
+            {title: 'Name', dataIndex: 'original_name', width: '300px',},
             {title: 'IPFS Hash', slots: {customRender: 'hash'}, width: '430px'},
             {title: 'Size', slots: {customRender: 'size'}, width: '120px',},
-            {title: 'Date Pinned', slots: {customRender: 'pin_date'},},
-            {title: 'Date Unpinned', slots: {customRender: 'unpin_date'},},
+            {title: 'Date Pinned', slots: {customRender: 'pin_date'}, width: '240px',},
+            {title: 'Date Unpinned', slots: {customRender: 'unpin_date'}, width: '240px',},
             {title: '', slots: {customRender: 'action'}, width: '100px'},
          ]
       }
@@ -146,6 +180,7 @@ export default {
    methods: {
       handleConditionChange() {
          this.getRecords()
+         this.conditionModalVisible = false
       },
       formatSize(size) {
          return commonUtil.humanFileSize(size)
@@ -163,24 +198,36 @@ export default {
 }
 </script>
 
-<style scoped lang="less">
-.title {
-   font-size: 50px;
-   font-family: Montserrat-Bold, Montserrat;
-   font-weight: bold;
-   color: #333333;
-   line-height: 61px;
-}
-
-.filter-panel {
-   margin-top: 100px;
-
-   .label {
-      font-size: 20px;
+<style lang="less">
+.explorer {
+   .title {
       font-family: Montserrat-Bold, Montserrat;
-      font-weight: bold;
       color: #333333;
-      line-height: 24px;
+   }
+
+   .filter-panel {
+      margin-top: 100px;
+
+      .label {
+         font-size: 20px;
+         font-family: Montserrat-Bold, Montserrat;
+         font-weight: bold;
+         color: #333333;
+         line-height: 24px;
+      }
+   }
+   @media only screen and (min-width: 768px) {
+      .ant-modal-body {
+         padding: 24px;
+      }
+   }
+   .ant-modal-body {
+      padding: 24px 12px !important;
+   }
+   .ant-table-body table {
+      table-layout: fixed;
+      width: 100% !important;
    }
 }
+
 </style>

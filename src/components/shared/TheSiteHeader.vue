@@ -1,25 +1,24 @@
 <template>
-   <header class="py-4 px-12">
-      <div class="flex">
-         <div style="flex: 1">
+   <header class=" header lg:px-12 lg:py-4 px-3 py-2">
+      <div class="flex items-center">
+         <div style="flex: 1" class="logo">
             <router-link to="/">
-               <img src="../../assets/images/ic_logo.png" height="36"/>
+               <img src="../../assets/images/ic_logo.png"/>
             </router-link>
          </div>
-         <div class="flex" style="flex: 5">
+         <div class="hidden lg:flex" style="flex: 5">
             <div class="flex-1">
-
             </div>
             <div class="flex items-center" v-if="$store.state.core.username">
-               <router-link class="text-xl"  :to="{name: 'explorer'}">Explorer</router-link>
-               <router-link class="text-xl ml-4"  :to="{name: 'upload'}">Upload</router-link>
+               <router-link class="text-xl" :to="{name: 'explorer'}">Explorer</router-link>
+               <router-link class="text-xl ml-4" :to="{name: 'upload'}">Upload</router-link>
                <a-button type="danger" class="ml-4" @click="()=>confirm($t('auth.message.msg31'), logout)">{{
                      $t("auth.Logout")
                   }}
                </a-button>
             </div>
             <div class="flex items-center" v-else>
-               <router-link class="text-gray-800"  :to="{name: 'explorer'}">Docs</router-link>
+               <router-link class="text-gray-800" :to="{name: 'explorer'}">Docs</router-link>
                <a-button type="primary" class="ml-10" :ghost="true" shape="round" @click="()=>$router.push('/login')">{{
                      $t("auth.Login")
                   }}
@@ -29,23 +28,63 @@
                   }}
                </a-button>
             </div>
-
          </div>
+         <a-popover placement="bottom" class="lg:hidden" v-model:visible="popOverVisible">
+            <template #content>
+               <div class="flex flex-col">
+                  <router-link class="lg:text-xl" :to="{name: 'explorer'}">Explorer</router-link>
+                  <router-link class="lg:text-xl mt-2 lg:mt-0 lg:ml-4" :to="{name: 'upload'}">Upload</router-link>
+                  <span @click="confirmLogout"
+                        class="text-red-600 lg:text-xl mt-2 lg:mt-0 lg:ml-4">
+                     {{ $t("auth.Logout") }}
+                  </span>
+               </div>
+            </template>
+            <UnorderedListOutlined
+               @click="()=>popOverVisible=true"
+               :class="'btn-toggle bg-white p-2 active:bg-gray-200 ' + ($store.state.core.username ? 'inline-block' : 'hidden')"
+               style="font-size: 1.5rem"/>
+         </a-popover>
+         <a-button type="primary"
+                   :class="'ml-10 lg:hidden ' + ($store.state.core.username ? 'hidden' : 'inline-block') "
+                   :ghost="true" shape="round" @click="()=>$router.push('/login')">{{
+               $t("auth.Login")
+            }}
+         </a-button>
+         <a-button type="primary" :class="'ml-2 lg:hidden ' + ($store.state.core.username ? 'hidden' : 'inline-block') "
+                   shape="round" @click="()=>$router.push('/signup')">{{
+               $t("auth.Register")
+            }}
+         </a-button>
       </div>
 
-      <div>
-
-      </div>
    </header>
 </template>
 
 <script>
 import agent from "@/agent";
 import {AppMixin} from "@/mixins";
+import {UnorderedListOutlined} from '@ant-design/icons-vue';
+import {useRoute} from "vue-router";
+import {ref, watch} from "vue";
 
 export default {
    name: "TheSiteHeader",
    mixins: [AppMixin],
+   components: {UnorderedListOutlined},
+   setup() {
+      const route = useRoute()
+      let popOverVisible = ref(false)
+      watch(
+         () => route.name,
+         () => {
+            popOverVisible.value = false
+         }
+      )
+      return {
+         popOverVisible
+      }
+   },
    data: function () {
       return {
       }
@@ -58,11 +97,38 @@ export default {
             localStorage.clear()
             window.location = '/login'
          })
+      },
+      confirmLogout() {
+         this.popOverVisible = false
+         this.confirm(this.$t('auth.message.msg31'), this.logout)
       }
    }
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
+.header {
+   .logo {
+      img {
+         height: 36px;
+      }
+   }
 
+   .menus__pc {
+   }
+
+   .btn-toggle {
+   }
+}
+
+@media only screen and (max-width: 768px) {
+   .header {
+      .logo {
+         img {
+            height: 32px;
+         }
+      }
+
+   }
+}
 </style>

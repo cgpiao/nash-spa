@@ -1,17 +1,17 @@
 <template>
    <div class="flex flex-col w-full justify-center">
-      <div class="flex flex-col mt-36 mb-44">
-         <div class="title flex w-full justify-center">
+      <div class="flex flex-col lg:mt-36 lg:mb-44 mt-16 mb-20">
+         <div class="title flex w-full justify-center text-3xl lg:text-4xl text-center">
             Sophisticated Pin Service Built On IPFS
          </div>
-         <div class="description flex justify-center w-full">
-            <div class="w-1/2 flex-col items-center">
+         <div class="description flex justify-center w-full mt-4 lg:mb-8 mt-6 lg:mt-10 text-lg lg:text-xl">
+            <div class="lg:w-1/2 w-5/6 flex-col items-center">
                <div class="text-center">NashCache seriously takes its role as ecosystem of Crust to</div>
-               <div class="text-center">provide decentralized Metadata management service with easy</div>
+               <div class="text-center">Provide decentralized Meta data management service with easy</div>
                <div class="text-center">IPFS API and toolkit.</div>
             </div>
          </div>
-         <div class="buttons w-full flex justify-center">
+         <div class="buttons w-full flex justify-center mt-8 lg:mt-10">
             <a-button type="primary" shape="round" class="px-6 ">
                <span>Learn more about NashCache</span>
                <span class="ml-8">></span>
@@ -23,46 +23,55 @@
             </a>
          </div>
       </div>
-      <div class="content__bottom flex flex-col">
-         <div class="item-list flex justify-between flex-grow px-14">
-            <div class="item">
+      <div class="content__bottom flex flex-col lg:pt-48 pt-20">
+         <div class="item-list flex flex-col lg:flex-row justify-between flex-grow lg:px-14 px-4">
+            <div class="item w-full lg:flex-1 flex flex-row lg:flex-col">
                <img src="../../assets/images/ic_home1.png"/>
-               <div class="item__text1">
-                  Easy API
+               <div class=" lg:ml-0 ml-2">
+                  <div class="item__text1 lg:text-3xl text-xl lg:mt-2">
+                     Easy API
+                  </div>
+                  <div class="item__text2 mt-1 lg:mt-3">
+                     Our developer-friendly, documented API endpoints allow you to pin anything you want to IPFS.
+                  </div>
                </div>
-               <div class="item__text2">
-                  Our developer-friendly, documented API endpoints allow you to pin anything you want to IPFS.
-               </div>
+
             </div>
-            <div class="item ml-8">
+            <div class="item mt-8 lg:mt-0 lg:ml-8 w-full lg:flex-1 flex flex-row lg:flex-col">
                <img src="../../assets/images/ic_home2.png"/>
-               <div class="item__text1">
-                  Deep Visibility
-               </div>
-               <div class="item__text2">
-                  Enjoy full visibility into what you are pinning with our pin explorer and metadata indexing.
-               </div>
-            </div>
-            <div class="item ml-8">
-               <img src="../../assets/images/ic_home3.png"/>
-               <div class="item__text1">
-                  Data Resiliency
-               </div>
-               <div class="item__text2">
-                  We make sure your content stays pinned on IPFS so you don't have to.
+               <div class="lg:ml-0 ml-2">
+                  <div class="item__text1 lg:text-3xl text-xl lg:mt-2">
+                     Deep Visibility
+                  </div>
+                  <div class="item__text2 mt-1 lg:mt-3">
+                     Enjoy full visibility into what you are pinning with our pin explorer and metadata indexing.
+                  </div>
                </div>
             </div>
-            <div class="item ml-8">
+            <div class="item mt-8 lg:mt-0 lg:ml-8 w-full lg:flex-1 flex flex-row lg:flex-col">
                <img src="../../assets/images/ic_home3.png"/>
-               <div class="item__text1">
-                  Blockchain
+               <div class=" lg:ml-0 ml-2">
+                  <div class="item__text1 lg:text-3xl text-xl lg:mt-2">
+                     Data Resiliency
+                  </div>
+                  <div class="item__text2 mt-1 lg:mt-3">
+                     We make sure your content stays pinned on IPFS so you don't have to.
+                  </div>
                </div>
-               <div class="item__text2">
-                  Create combination of blockchain like Crust with IPFS for immutable off-chain data storage
+            </div>
+            <div class="item mt-8 lg:mt-0 lg:ml-8 w-full lg:flex-1 flex flex-row lg:flex-col">
+               <img src="../../assets/images/ic_home4.png"/>
+               <div class=" lg:ml-0 ml-2">
+                  <div class="item__text1 lg:text-3xl text-xl lg:mt-2">
+                     Blockchain
+                  </div>
+                  <div class="item__text2 mt-1 lg:mt-3">
+                     Create combination of blockchain like Crust with IPFS for immutable off-chain data storage
+                  </div>
                </div>
             </div>
          </div>
-         <TheSiteFooter class="footer"/>
+         <TheSiteFooter class="footer lg:pt-48 pt-20"/>
       </div>
    </div>
 </template>
@@ -80,43 +89,33 @@ export default {
 .title {
    font-family: Montserrat-Bold, Montserrat-Regular;
    color: #111111;
-   font-size: 2.5rem;
 }
 
 .description {
    font-family: Montserrat-Medium, Montserrat-Regular;
    font-weight: 500;
    color: #333333;
-   margin-top: 30px;
-   font-size: 1.1rem;
 }
 
-.buttons {
-   margin-top: 40px;
-}
 .content__bottom {
    background: #E7E9EF;
-   padding-top: 200px;
+
    .footer {
-      padding-top: 200px;
    }
 }
+
 .item {
-   flex: 1;
    &__text1 {
       font-family: Montserrat-Bold, Montserrat-Regular;
       color: #1E1E1E;
-      margin-top: 1.5px;
-      font-size: 2.0rem;
    }
 
    &__text2 {
       font-family: Montserrat-Medium, Montserrat-Regular;
       font-weight: 500;
       color: #1E1E1E;
-      margin-top: 1rem;
-      font-size: 1rem;
    }
+
    img {
       width: 48px;
       height: 48px;
