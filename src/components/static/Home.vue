@@ -6,14 +6,14 @@
          </div>
          <div class="description flex justify-center w-full mt-4 lg:mb-8 mt-6 lg:mt-10 text-lg lg:text-xl">
             <div class="lg:w-1/2 w-5/6 flex-col items-center">
-               <div class="text-center">NashCache seriously takes its role as ecosystem of Crust to</div>
+               <div class="text-center">Crato seriously takes its role as ecosystem of Crust to</div>
                <div class="text-center">Provide decentralized Meta data management service with easy</div>
                <div class="text-center">IPFS API and toolkit.</div>
             </div>
          </div>
          <div class="buttons w-full flex justify-center mt-8 lg:mt-10">
             <a-button type="primary" shape="round" class="px-6 ">
-               <span>Learn more about NashCache</span>
+               <span>Learn more about Crato</span>
                <span class="ml-8">></span>
             </a-button>
          </div>

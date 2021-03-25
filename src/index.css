@@ -27,3 +27,6 @@
 body {
     font-family: "bkan", "TsukuBRdGothic-Regular", serif;
 }
+.ant-btn {
+    font-family:"Montserrat-Medium";
+}
