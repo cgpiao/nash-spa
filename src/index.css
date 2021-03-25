@@ -5,15 +5,15 @@
 }
 @font-face {
     font-family:"Montserrat-Bold";
-    src: url("assets/fonts/Montserrat-Bold.ttf") format("truetype");
+    src: url("assets/fonts/Montserrat-Bold-Extract.ttf") format("truetype");
 }
 @font-face {
     font-family:"Montserrat-Regular";
-    src: url("assets/fonts/Montserrat-Regular.ttf") format("truetype");
+    src: url("assets/fonts/Montserrat-Regular-Extract.ttf") format("truetype");
 }
 @font-face {
     font-family:"Montserrat-Medium";
-    src: url("assets/fonts/Montserrat-Medium.ttf") format("truetype");
+    src: url("assets/fonts/Montserrat-Medium-Extract.ttf") format("truetype");
 }
 
 @font-face {
