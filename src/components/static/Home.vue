@@ -6,8 +6,8 @@
          </div>
          <div class="description flex justify-center w-full mt-4 lg:mb-8 mt-6 lg:mt-10 text-lg lg:text-xl">
             <div class="lg:w-1/2 w-5/6 flex-col items-center">
-               <div class="text-center">Crato seriously takes its role as ecosystem of Crust to</div>
-               <div class="text-center">Provide decentralized Meta data management service with easy</div>
+               <div class="text-center">Crato seriously takes its role as eco-partner of Crust to</div>
+               <div class="text-center">provide decentralized meta data management service with easy</div>
                <div class="text-center">IPFS API and toolkit.</div>
             </div>
          </div>
