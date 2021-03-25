@@ -40,7 +40,7 @@
             <div class="item mt-8 lg:mt-0 lg:ml-8 w-full lg:flex-1 flex flex-row lg:flex-col">
                <img src="../../assets/images/ic_home2.png"/>
                <div class="lg:ml-0 ml-2">
-                  <div class="item__text1 lg:text-3xl text-xl lg:mt-2">
+                  <div class="item__text1 lg:text-3xl text-xl lg:mt-2 font-bold">
                      Deep Visibility
                   </div>
                   <div class="item__text2 mt-1 lg:mt-3">

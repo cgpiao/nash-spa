@@ -168,8 +168,8 @@ export default {
       return {
          conditionModalVisible: false,
          columns: [
-            {title: 'Name', dataIndex: 'original_name', width: '300px',},
-            {title: 'IPFS Hash', slots: {customRender: 'hash'}, width: '430px'},
+            {title: 'Name', dataIndex: 'original_name', width: '250px', ellipsis: true,},
+            {title: 'IPFS Hash', slots: {customRender: 'hash'}, width: '250px', ellipsis: true,},
             {title: 'Size', slots: {customRender: 'size'}, width: '120px',},
             {title: 'Date Pinned', slots: {customRender: 'pin_date'}, width: '240px',},
             {title: 'Date Unpinned', slots: {customRender: 'unpin_date'}, width: '240px',},

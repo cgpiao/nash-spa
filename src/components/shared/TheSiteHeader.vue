@@ -32,12 +32,11 @@
          <a-popover placement="bottom" class="lg:hidden" v-model:visible="popOverVisible">
             <template #content>
                <div class="flex flex-col">
-                  <router-link class="lg:text-xl" :to="{name: 'explorer'}">Explorer</router-link>
-                  <router-link class="lg:text-xl mt-2 lg:mt-0 lg:ml-4" :to="{name: 'upload'}">Upload</router-link>
-                  <span @click="confirmLogout"
-                        class="text-red-600 lg:text-xl mt-2 lg:mt-0 lg:ml-4">
-                     {{ $t("auth.Logout") }}
-                  </span>
+                  <a-button type="link" @click="()=>$router.replace({name: 'explorer'})">explorer</a-button>
+                  <a-button class="lg:text-xl mt-4 lg:mt-0 lg:ml-4" type="link" @click="()=>$router.replace({name: 'upload'})">Upload</a-button>
+                  <a-button class="lg:text-xl mt-4 lg:mt-0 lg:ml-4" type="link" ghost @click="confirmLogout">
+                     <span class="text-red-600">{{ $t("auth.Logout") }}</span>
+                  </a-button>
                </div>
             </template>
             <UnorderedListOutlined
