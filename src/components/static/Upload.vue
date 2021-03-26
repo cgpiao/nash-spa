@@ -2,7 +2,7 @@
    <div class="w-full flex justify-center">
       <div class="" style="width: 650px; margin-top: 100px;">
          <div class="w-full flex justify-center">
-            <img src="../../assets/images/ic_logo.png" width="100" height="60"/>
+            <img src="../../assets/images/logo.png" width="100" height="60"/>
          </div>
          <div class="buttons w-full flex justify-between" style="margin-top: 55px">
             <div :class="getButtonClass(1) + ' flex lg:px-4 mx-2 lg:mx-0'" @click="()=>handleTabChange(1)">

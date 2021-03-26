@@ -1,7 +1,7 @@
 <template>
    <div class="flex justify-between py-4">
       <router-link to="/">
-         <img src="../../assets/logo.png" height="36" />
+         <img src="../../assets/images/logo.png" height="36" />
       </router-link>
       <div>
          <a-button type="primary" :ghost="true" @click="()=>$router.push('/login')">{{ $t("auth.Login") }}</a-button>

@@ -3,7 +3,7 @@
       <div class="flex items-center">
          <div style="flex: 1" class="logo">
             <router-link to="/">
-               <img src="../../assets/images/ic_logo.png"/>
+               <img src="../../assets/images/logo.png"/>
             </router-link>
          </div>
          <div class="hidden lg:flex" style="flex: 5">
@@ -109,7 +109,7 @@ export default {
 .header {
    .logo {
       img {
-         height: 36px;
+         height: 40px;
       }
    }
 
@@ -124,7 +124,7 @@ export default {
    .header {
       .logo {
          img {
-            height: 32px;
+            height: 40px;
          }
       }
 
