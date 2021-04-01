@@ -1,4 +1,6 @@
+console.log('process.env.NODE_ENV', process.env.NODE_ENV)
 module.exports = {
+   productionSourceMap: process.env.NODE_ENV !== 'production',
    css: {
       loaderOptions: {
          less: {
@@ -12,6 +14,9 @@ module.exports = {
       },
    },
    chainWebpack: (config) => {
+      config.performance
+         .maxEntrypointSize(400000)
+         .maxAssetSize(400000);
       const svgRule = config.module.rule('svg');
 
       svgRule.uses.clear();
