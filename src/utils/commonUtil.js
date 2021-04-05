@@ -9,7 +9,7 @@ class CommonUtil {
     *
     * @return Formatted string.
     */
-   humanFileSize(bytes, si = true, dp = 1) {
+   humanFileSize(bytes, si = false, dp = 1) {
       const thresh = si ? 1000 : 1024;
 
       if (Math.abs(bytes) < thresh) {

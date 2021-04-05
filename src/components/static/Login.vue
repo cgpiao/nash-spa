@@ -24,6 +24,7 @@
 import {reactive, ref} from "vue";
 import agent from "@/agent";
 import {M_SESSION_SET} from "@/store/mutations";
+import {ACCOUNT_SHOW} from "@/store/actions";
 
 export default {
    name: "Home",
@@ -53,6 +54,7 @@ export default {
          agent.auth.login(params).then(resp => {
             this.$store.commit(M_SESSION_SET, {username: this.form.models.username, token: resp.data})
             this.$router.replace({name: 'explorer'})
+            this.$store.dispatch(ACCOUNT_SHOW)
          }).catch(error => {
             this.form.message = error.response.data.message
          })

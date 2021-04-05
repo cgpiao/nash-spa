@@ -15,11 +15,18 @@ import Message from "ant-design-vue/lib/message";
 import Modal from "ant-design-vue/lib/modal/Modal";
 import Menu from "ant-design-vue/lib/menu";
 import Popover from "ant-design-vue/lib/popover";
+import Tab from "ant-design-vue/lib/tabs";
+import Progress from "ant-design-vue/lib/progress";
+import Form from "ant-design-vue/lib/form";
+import Switch from "ant-design-vue/lib/switch";
+import InputNumber from "ant-design-vue/lib/input-number";
 
 
 const i18n = createI18n({
    locale: 'cn',
    fallbackLocale: 'en',
+   silentTranslationWarn: true,
+   silentFallbackWarn: true,
    messages,
 })
 
@@ -27,7 +34,6 @@ const i18n = createI18n({
 // console.log('routes', routes, siteRoutes)
 createApp(Site)
    .use(Button)
-   .use(Input)
    .use(Modal)
    .use(Table)
    .use(DatePicker)
@@ -35,6 +41,12 @@ createApp(Site)
    .use(Message)
    .use(Popover)
    .use(Menu)
+   .use(Tab)
+   .use(Progress)
+   .use(Form)
+   .use(Switch)
+   .use(InputNumber)
+   .use(Input)
    .use(store)
    .use(router)
    .use(i18n)

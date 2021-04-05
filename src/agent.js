@@ -1,6 +1,10 @@
 import httpClient from './httpClient'
 const accounts = {
-   create: (data) => httpClient.post('accounts', data)
+   show: () => httpClient.get('account'),
+   create: (data) => httpClient.post('accounts', data),
+}
+const orders = {
+   index: (queries={}) => httpClient.get('orders', {params: queries}),
 }
 const auth = {
    login: (data) => httpClient.post('login', data),
@@ -18,9 +22,15 @@ const hashes = {
    unpin: hash => httpClient.delete(`hashes/${hash}/unpin`),
 }
 
+const intents = {
+   create: (data) => httpClient.post('intents', data),
+}
+
 export default {
    accounts,
    auth,
    attachments,
    hashes,
+   intents,
+   orders
 }

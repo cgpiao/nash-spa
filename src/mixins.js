@@ -4,7 +4,6 @@ import Modal from "ant-design-vue/lib/modal";
 export const AppMixin = {
    data() {
       return {
-
       }
    },
    methods: {

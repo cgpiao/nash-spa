@@ -6,6 +6,7 @@ import Register from "@/components/static/Register";
 import Files from "@/components/static/Files";
 import Upload from "@/components/static/Upload";
 import {LS_TOKEN} from "@/constants";
+import Order from "@/components/static/Order";
 
 const routes = [
    {path: '/', component: Home, name: 'home'},
@@ -14,6 +15,7 @@ const routes = [
    {path: '/signup', component: Register, name: 'register'},
    {path: '/explorer', component: Files, name: 'explorer'},
    {path: '/upload', component: Upload, name: 'upload'},
+   {path: '/order', component: Order, name: 'order'},
 ]
 
 let prefix = process.env.VUE_APP_API_PREFIX || ''

@@ -2,7 +2,7 @@
    <div class="w-full flex justify-center">
       <div class="" style="width: 650px; margin-top: 100px;">
          <div class="w-full flex justify-center">
-            <img src="../../assets/images/logo.png" />
+            <img src="../../assets/images/logo.png"/>
          </div>
          <div class="buttons w-full flex justify-between" style="margin-top: 55px">
             <div :class="getButtonClass(1) + ' flex lg:px-4 mx-2 lg:mx-0'" @click="()=>handleTabChange(1)">
@@ -27,38 +27,52 @@
                </div>
             </div>
          </div>
-         <div class="upload-form" >
-            <div class="relative pl-3 file-select h-10 bg-white hidden lg:flex flex-col justify-center border border-gray-300 border-solid rounded-lg text-gray-900 " v-if="currentTab === 1">
-               <input type="file" style="display: none" id="selectFile" @change="handleFileChange"/>
-               <label class="cursor-pointer" for="selectFile">{{files.length > 0 ? files[0].name : 'Select File…'}}</label>
-               <IconAdd class="absolute right-2 add" />
+         <div class="upload-form">
+            <div class="relative pl-3 file-select h-10 bg-white hidden lg:flex flex-col justify-center border border-gray-300 border-solid rounded-lg text-gray-900 "
+                 v-if="currentTab === 1">
+               <input type="file" style="display: none" id="selectFile" @change="handleFileChange"
+                      :accept="acceptFiles"/>
+               <label class="cursor-pointer"
+                      for="selectFile">{{ files.length > 0 ? files[0].name : 'Select File…' }}</label>
+               <IconAdd class="absolute right-2 add"/>
             </div>
-            <div class="relative pl-3 file-select h-10 flex lg:hidden flex-col items-center justify-center rounded-lg text-gray-900" v-if="currentTab === 1">
+            <div class="relative pl-3 file-select h-10 flex lg:hidden flex-col items-center justify-center rounded-lg text-gray-900"
+                 v-if="currentTab === 1">
                <div class="text-xl">do not allow upload on mobile devices</div>
             </div>
-            <div class="relative pl-3 file-select h-10 bg-white flex flex-col justify-center border border-gray-300 border-solid rounded-lg text-gray-900" v-if="currentTab === 2">
-               <input type="file" style="display: none" id="selectFolder" webkitdirectory mozdirectory @change="handleFolderChange"/>
-               <label class="cursor-pointer" for="selectFolder">{{files.length > 0 ? files[0].name : 'Select Directory…'}}</label>
-               <IconAdd class="absolute right-2 add" />
+            <div class="relative pl-3 file-select h-10 bg-white flex flex-col justify-center border border-gray-300 border-solid rounded-lg text-gray-900"
+                 v-if="currentTab === 2">
+               <input type="file" style="display: none" id="selectFolder" webkitdirectory mozdirectory
+                      @change="handleFolderChange"/>
+               <label class="cursor-pointer"
+                      for="selectFolder">{{ files.length > 0 ? files[0].name : 'Select Directory…' }}</label>
+               <IconAdd class="absolute right-2 add"/>
             </div>
-            <div class="relative p-2 file-select h-10 bg-white flex flex-col justify-center border border-gray-300 border-solid rounded-lg text-gray-900" v-if="currentTab === 3">
+            <div class="relative p-2 file-select h-10 bg-white flex flex-col justify-center border border-gray-300 border-solid rounded-lg text-gray-900"
+                 v-if="currentTab === 3">
                <input type="text" placeholder="hash" v-model="hash"/>
-               <IconAdd class="absolute right-2 add" />
+               <IconAdd class="absolute right-2 add"/>
             </div>
             <div class="mt-7 p-2 file-select h-10 bg-white flex-col justify-center border border-gray-300 border-solid rounded-lg text-gray-900 hidden lg:flex">
-               <input type="text" placeholder="Custom Name For Pin" class="" v-model="customFileName" v-if="currentTab === 1"/>
+               <input type="text" placeholder="Custom Name For Pin" class="" v-model="customFileName"
+                      v-if="currentTab === 1"/>
                <input type="text" placeholder="Custom Name For Pin" v-model="customFolderName" v-if="currentTab === 2"/>
                <input type="text" placeholder="Custom Name For Pin" v-model="customHashName" v-if="currentTab === 3"/>
             </div>
             <div class="mt-14 flex justify-center">
-               <a-button type="primary" v-if="currentTab === 3" class="px-12" shape="round" @click="handlePin" :disabled="pinDisabled">Pin</a-button>
-               <a-button type="primary" v-else class="px-12 hidden lg:inline-block" shape="round" @click="handleSubmit" :disabled="submitDisabled">Upload</a-button>
+               <a-button type="primary" v-if="currentTab === 3" class="px-12" shape="round" @click="handlePin"
+                         :disabled="pinDisabled">Pin
+               </a-button>
+               <a-button type="primary" v-else class="px-12 hidden lg:inline-block" shape="round" @click="handleSubmit"
+                         :disabled="submitDisabled">Upload
+               </a-button>
             </div>
          </div>
          <div class="mt-12 flex flex-col">
             <div class="text-2xl mt-4" v-if="status >= STATUS_UPLOADING && currentTab < 3">Uploading...</div>
-            <div class="text-2xl mt-4" v-if="status >= STATUS_PINNING">Pinning...</div>
-            <div class="text-2xl mt-4" v-if="status >= STATUS_PINNED">Pinned...</div>
+            <div class="text-2xl mt-4" v-if="status >= STATUS_PINNING && status < STATUS_ERROR">Pinning...</div>
+            <div class="text-2xl mt-4" v-if="status >= STATUS_PINNED && status < STATUS_ERROR">Pinned...</div>
+            <div class="text-2xl mt-4" v-if="status === STATUS_ERROR">{{ errorMessage }}</div>
          </div>
       </div>
    </div>
@@ -76,6 +90,8 @@ import IconAdd from '../../assets/images/ic_add.svg';
 import {ATTACHMENT_CREATE} from "@/store/actions";
 import {encode} from "js-base64";
 import agent from "@/agent";
+import {TEMP_ERROR, TEMP_PINNED} from "@/constants";
+import Modal from "ant-design-vue/lib/modal";
 
 
 export default {
@@ -110,6 +126,7 @@ export default {
          customFileName: null,
          customFolderName: null,
          customHashName: null,
+         errorMessage: '',
          hash: null,
          files: [],
          status: null,
@@ -117,6 +134,18 @@ export default {
          STATUS_UPLOADING: 1,
          STATUS_PINNING: 2,
          STATUS_PINNED: 3,
+         STATUS_ERROR: 9,
+         acceptFiles: [
+            'image/*', 'text/plain',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-powerpoint',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            'application/pdf',
+            'application/json'
+         ].join(',')
       }
    },
    methods: {
@@ -129,6 +158,14 @@ export default {
          document.getElementById('selectFile').click()
       },
       handleFileChange(e) {
+         // 8977920
+         if (this.currentTab === 1 && e.target.files[0].size > 5 * 1024 * 1024) {
+            Modal.warning({
+               title: 'Warning',
+               content: 'File must be less than 5MB',
+            });
+            return
+         }
          this.files = e.target.files
       },
       handleFolderChange(e) {
@@ -142,8 +179,12 @@ export default {
             this.status = this.STATUS_PINNING
             let interval = setInterval(() => {
                this.showAttachment(uuid).then(resp => {
-                  if (resp.data) {
+                  if (resp.data.value === TEMP_PINNED) {
                      this.status = this.STATUS_PINNED
+                     clearInterval(interval)
+                  } else if (resp.data.value === TEMP_ERROR) {
+                     this.status = this.STATUS_ERROR
+                     this.errorMessage = resp.data.note
                      clearInterval(interval)
                   }
                })
@@ -204,6 +245,9 @@ export default {
                   }
                })
             }, 1500)
+         }).catch(error => {
+            this.status = this.STATUS_ERROR
+            this.errorMessage = error.response.data.message
          })
       },
       getButtonClass(tab) {
@@ -221,11 +265,13 @@ export default {
 svg {
    width: 20px;
    height: 20px;
+
    &.pin {
       width: 15px;
       height: 15px;
       margin-top: 2px;
    }
+
    &.add {
       width: 24px;
       height: 24px;
@@ -258,6 +304,7 @@ svg {
       line-height: 22px;
    }
 }
+
 input {
    outline: 0;
    border-width: 0px;

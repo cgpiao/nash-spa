@@ -32,6 +32,7 @@ import agent from "@/agent";
 import {M_SESSION_SET} from "@/store/mutations";
 import IconVisible from '../../assets/images/ic_password_visible.svg';
 import IconInvisible from '../../assets/images/ic_password_invisible.svg';
+import {ACCOUNT_SHOW} from "@/store/actions";
 // import agent from "@/agent";
 
 export default {
@@ -101,6 +102,7 @@ export default {
             let data = {username: this.form.models.username, token: resp.data}
             this.$store.commit(M_SESSION_SET, data)
             this.$router.replace({name: 'explorer'})
+            this.$store.dispatch(ACCOUNT_SHOW)
          }).catch(error => {
             this.form.message = error.response.data.message
          })

@@ -11,6 +11,7 @@
 <script>
 import TheSiteHeader from "@/components/shared/TheSiteHeader";
 import TheSiteFooter from "@/components/shared/TheSiteFooter";
+import {ACCOUNT_SHOW} from "@/store/actions";
 export default {
 name: "Site",
    components: {TheSiteFooter, TheSiteHeader},
@@ -24,7 +25,7 @@ name: "Site",
       }
    },
    mounted() {
-
+      this.$store.dispatch(ACCOUNT_SHOW)
    }
 }
 </script>
