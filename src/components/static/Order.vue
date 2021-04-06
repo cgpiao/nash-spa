@@ -33,7 +33,7 @@
       <div class="flex">
          <a-form ref="formRef" :model="models" :rules="rules" :wrapper-col="wrapperCol" class="" style="width: 500px">
             <a-form-item label="Storage" name="storage">
-               <a-input-number v-model:value="models.storage"/>
+               <a-input-number v-model:value="models.storage" step="10"/>
                GB
             </a-form-item>
             <a-form-item label="Renew" name="months">
@@ -57,10 +57,12 @@
          <div class="bg-blue-300 py-2 px-4">
             Payments
          </div>
-         <div class="flex pt-4">
-            <div class="flex flex-col justify-center p-4 cursor-pointer rounded hover:bg-gray-50">
+         <div class="flex flex-col lg:flex-row pt-4">
+            <div class="flex flex-col justify-center p-4 cursor-pointer rounded hover:bg-gray-50 w-48">
                <img src="../../assets/images/ic_payment_card.png" class="w-40" @click="showCardModal"/>
-               <div class="text-center">Pay by Credit Card</div>
+            </div>
+            <div class="flex flex-col justify-center items-center:q p-4 cursor-pointer rounded hover:bg-gray-50 w-48 mt-8 lg:mt-0 lg:ml-8">
+               <img src="../../assets/images/ic_wallet_ali.png" class="w-32 h-32" @click="()=>payByWallet('alipay')"/>
             </div>
          </div>
       </div>
@@ -86,6 +88,28 @@
          <div class="mt-4 text-xl font-semibold">Card Info</div>
          <CardBody @init-card-event="handleCardInit" :stripe="stripe"/>
       </a-modal>
+      <a-modal v-model:visible="alipayVisible" @ok="submit" :width="580" title="Pay by AliPay">
+         <div v-if="models.storage + 1 < $store.getters.totalCapacity">
+            <div>You are trying to downgrade storage from <span class="text-red-600">{{$store.getters.totalCapacity - 1}}GB</span> to <span class="text-red-600">{{models.storage}}GB</span></div>
+            <div>You cannot undo this operation.</div>
+         </div>
+         <div>
+            <div class="flex">
+               <div class="w-20">Difference</div>
+               <div>{{ deltaAmount }}</div>
+            </div>
+            <div class="flex">
+               <div class="w-20">Renew</div>
+               <div>{{ renewAmount }}</div>
+            </div>
+            <div class="flex">
+               <div class="w-20">Total</div>
+               <div>{{ amount }}</div>
+            </div>
+         </div>
+         <div class="mt-4 text-xl font-semibold">QR Code</div>
+         <AliPayBody @init-ali-event="handleAliInit" :stripe="stripe"/>
+      </a-modal>
    </div>
 </template>
 
@@ -98,10 +122,12 @@ import {onMounted, ref} from "vue";
 import * as moment from "moment";
 import {M_PLAN_UPDATE} from "@/store/mutations";
 import Message from "ant-design-vue/lib/message";
+import AliPayBody from "@/components/shared/Modal/AliPayBody";
+import {loadStripe} from "@stripe/stripe-js";
 
 export default {
    name: "Order",
-   components: {CardBody},
+   components: {AliPayBody, CardBody},
    setup() {
       let orders = ref([])
       let getOrders = async () => {
@@ -158,8 +184,8 @@ export default {
                      if (value === null) {
                         return Promise.reject('must not empty')
                      }
-                     if (value < 1 || typeof value > 1000)
-                        return Promise.reject('value should be 1 to 1000')
+                     if (value < 10 || typeof value > 1000)
+                        return Promise.reject('value should be 10 to 1000')
                      return Promise.resolve()
                   }, trigger: 'submit'
                },
@@ -180,6 +206,7 @@ export default {
          labelCol: {span: 3},
          wrapperCol: {span: 8},
          cardVisible: false,
+         alipayVisible: false,
          reduceConfirmationVisible: false,
          stripe: null,
          card: null,
@@ -253,11 +280,54 @@ export default {
                })
             }
          })
+      },
+      payByWallet(method) {
+         this.$refs.formRef.validate().then(() => {
+            let data = {
+               storage: this.models.storage,
+               months: this.models.months,
+               payment_type: method
+            }
+            if (this.amount > 0) {
+               agent.intents.create(data).then(async ({data}) => {
+                  this.session = data
+                  this.stripe = await loadStripe(process.env.VUE_APP_STRIPE_PUBLISHABLE_KEY)
+                  let {host, protocol} = window.location
+                  let url = `${protocol}//${host}/charge`
+                  if (method === 'alipay') {
+                     this.stripe.confirmAlipayPayment(data, {
+                        return_url: url,
+                     }).then((result) => {
+                        if (result.error) {
+                           // Inform the customer that there was an error.
+                           var errorElement = document.getElementById('error-message');
+                           errorElement.textContent = result.error.message;
+                        }
+                     });
+                  }
+
+               })
+            }
+         })
 
       },
       handleCardInit({stripe, card}) {
          this.card = card
          this.stripe = stripe
+      },
+      handleAliInit({stripe}) {
+         this.stripe = stripe
+         stripe.createSource({
+            type: 'alipay',
+            amount: 1099,
+            currency: 'cny',
+            redirect: {
+               return_url: 'http://localhost:4000/charge/success',
+            },
+         }).then(function(result) {
+            console.log(result.error, result.source)
+            // handle result.error or result.source
+         });
       }
    },
 

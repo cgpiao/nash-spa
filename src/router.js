@@ -15,7 +15,7 @@ const routes = [
    {path: '/signup', component: Register, name: 'register'},
    {path: '/explorer', component: Files, name: 'explorer'},
    {path: '/upload', component: Upload, name: 'upload'},
-   {path: '/order', component: Order, name: 'order'},
+   {path: '/charge', component: Order, name: 'order'},
 ]
 
 let prefix = process.env.VUE_APP_API_PREFIX || ''
