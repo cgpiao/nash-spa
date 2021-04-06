@@ -2,6 +2,7 @@ import httpClient from './httpClient'
 const accounts = {
    show: () => httpClient.get('account'),
    create: (data) => httpClient.post('accounts', data),
+   changePlan: (data) => httpClient.post('account/change-plan', data)
 }
 const orders = {
    index: (queries={}) => httpClient.get('orders', {params: queries}),
@@ -24,6 +25,7 @@ const hashes = {
 
 const intents = {
    create: (data) => httpClient.post('intents', data),
+   show: (secret) => httpClient.get('intents/' + secret),
 }
 
 export default {

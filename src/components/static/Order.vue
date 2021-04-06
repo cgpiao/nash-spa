@@ -69,7 +69,7 @@
             <div>You are trying to downgrade storage from <span class="text-red-600">{{$store.getters.totalCapacity - 1}}GB</span> to <span class="text-red-600">{{models.storage}}GB</span></div>
             <div>You cannot undo this operation.</div>
          </div>
-         <div v-else>
+         <div>
             <div class="flex">
                <div class="w-20">Difference</div>
                <div>{{ deltaAmount }}</div>
@@ -133,7 +133,8 @@ export default {
          let now = (new Date()).getTime()
          let stopSeconds = this.$store.state.core.account.plan.stop_seconds
          let deltaDays = Math.floor((stopSeconds - (now / 1000)) / (60 * 60 * 24))
-         return ((this.unitPrice / 30) * deltaDays * (this.models.storage - currentStorage)) / 100
+         let amount = ((this.unitPrice / 30) * deltaDays * (this.models.storage - currentStorage)) / 100
+         return amount >= 0 ? amount : 0
       },
       renewAmount() {
          return (this.unitPrice * this.models.months * this.models.storage) / 100
@@ -195,31 +196,49 @@ export default {
    },
    methods: {
       submit() {
-         this.stripe.confirmCardPayment(this.session, {
-            payment_method: {
-               card: this.card,
-               billing_details: {
-                  name: this.$store.state.core.username
-               }
-            }
-         }).then((result) => {
-            if (result.error) {
-               alert(result.error.message)
-            } else {
-               if (result.paymentIntent.status === 'succeeded') {
-                  this.cardVisible = false
-                  const payload = {
-                     months: this.models.months,
-                     storage: this.models.storage
+         if (this.amount > 0) {
+            this.stripe.confirmCardPayment(this.session, {
+               payment_method: {
+                  card: this.card,
+                  billing_details: {
+                     name: this.$store.state.core.username
                   }
-                  this.$store.commit(M_PLAN_UPDATE, payload)
-                  Message.success(
-                        'Charge Successful',
+               }
+            }).then((result) => {
+               if (result.error) {
+                  Message.error(
+                        result.error.message,
                         3,
                   );
+               } else {
+                  if (result.paymentIntent.status === 'succeeded') {
+                     this.cardVisible = false
+                     const payload = {
+                        months: this.models.months,
+                        storage: this.models.storage
+                     }
+                     this.$store.commit(M_PLAN_UPDATE, payload)
+                     Message.success(
+                           'Charge Successful',
+                           3,
+                     );
+                  }
                }
-            }
-         })
+            })
+         } else {
+            agent.accounts.changePlan({storage: this.models.storage}).then(() => {
+               this.cardVisible = false
+               const payload = {
+                  months: this.models.months,
+                  storage: this.models.storage
+               }
+               this.$store.commit(M_PLAN_UPDATE, payload)
+               Message.success(
+                     'Change Successful',
+                     3,
+               );
+            })
+         }
       },
       async showCardModal() {
          this.$refs.formRef.validate().then(() => {
@@ -228,10 +247,11 @@ export default {
                storage: this.models.storage,
                months: this.models.months,
             }
-            agent.intents.create(data).then(({data}) => {
-               this.session = data
-            })
-
+            if (this.amount > 0) {
+               agent.intents.create(data).then(({data}) => {
+                  this.session = data
+               })
+            }
          })
 
       },
